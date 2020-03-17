@@ -1,6 +1,5 @@
 *.dll
-*.db
-*.opendb
-*.ipch
 Debug/
 SFML_Template/Debug/
+.vs
+.vs/SFML_Template/v15/.suo
