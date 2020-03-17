@@ -1,0 +1,6 @@
+*.dll
+*.db
+*.opendb
+*.ipch
+Debug/
+SFML_Template/Debug/
