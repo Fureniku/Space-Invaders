@@ -5,8 +5,8 @@
 
 //using namespace std;
 using namespace std;
-const int xSize = 996;
-const int ySize = 512;
+extern int xSize = 224;
+extern int ySize = 256;
 
 int main()
 {
@@ -48,13 +48,15 @@ int main()
 
 	bool moveDown = false;
 
+	int deadAliens = 0;
+
 	sf::Clock timer; // A timer object
 	int iCounter = 0; // An interger for counting
 
 					  // Run until the user closes the window
 	while (window.isOpen()) {
 		if (bulletRender.getPosition().y > 0) {
-			bulletRender.move(0, -20);
+			bulletRender.move(0, -10);
 		}
 
 		sf::FloatRect bulletBoundingBox = bulletRender.getGlobalBounds();
@@ -65,7 +67,6 @@ int main()
 			sf::FloatRect alienBoundingBox = alien.getGlobalBounds();
 
 			if (alienBoundingBox.intersects(bulletBoundingBox)) {
-				cout << "Intersection detected" << endl;
 				bulletRender.setPosition(-50, -50);
 				a.setDead();
 				alien.setPosition(-50, -50);
@@ -74,10 +75,6 @@ int main()
 			a.setRenderer(alien);
 			alienVector.at(i) = a;
 		}
-		/*;
-		
-
-		*/
 
 		// check all user events
 		sf::Event event;
@@ -111,34 +108,44 @@ int main()
 			}
 
 			if (bIsSpacePressed) {
-				bulletRender.setPosition(playerRender.getPosition().x, playerRender.getPosition().y);
-				player.shoot();
+				if (bulletRender.getPosition().y < 0) {
+					bulletRender.setPosition(playerRender.getPosition().x, playerRender.getPosition().y);
+					player.shoot();
+				}
 			}
 
 		}
 
 		// TIme elapsed?
 		sf::Time elapsedTime = timer.getElapsedTime(); // How much time has elapsed since last iteration
-
-		if (elapsedTime.asSeconds() > 1.0f) // Has one second passed?
+		cout << "Current aliens: " << deadAliens << endl << " Move by " << (0.5f - (deadAliens / 50.0F)) << endl;
+		if (elapsedTime.asSeconds() > (0.5f - (deadAliens/50.0F))) // Has one second passed?
 		{
-			int moveHori = 40;
+			deadAliens = 0;
+			int moveHori = 20;
 			int moveVert = 0;
-			if (!moveRight) { moveHori = -40; }
+			if (!moveRight) { moveHori = -20; }
 			if (moveDown) { moveVert = 50; }
+
 			for (int i = 0; i < alienVector.size(); i++) {
 				Alien a = alienVector.at(i);
 				sf::RectangleShape alien = a.getRenderer();
-				alien.move(moveHori, moveVert);
-				if (alien.getPosition().y > 0) {
-					if (alien.getPosition().x > xSize || alien.getPosition().x < 0) {
-						cout << "Moving alien down" << alien.getPosition().x << " " << xSize << endl;
-						moveRight = !moveRight;
-						moveDown = true;
-					}
-					a.setRenderer(alien);
+				if (!a.isDead()) {
+					alien.move(moveHori, moveVert);
+					if (alien.getPosition().y > 0) {
+						if (alien.getPosition().x > xSize || alien.getPosition().x < 0) {
+							cout << "Moving alien down" << alien.getPosition().x << " " << xSize << endl;
+							moveRight = !moveRight;
+							moveDown = true;
+						}
+						a.setRenderer(alien);
 
-					alienVector.at(i) = a;
+						alienVector.at(i) = a;
+					}
+				}
+				else {
+					cout << "Alien is dead. DONT MOVE!" << endl;
+					deadAliens++;
 				}
 			}
 

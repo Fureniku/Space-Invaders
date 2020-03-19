@@ -23,10 +23,12 @@
     <ClCompile Include="src\Alien.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Alien.h" />
     <ClInclude Include="include\Player.h" />
+    <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\test.h" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,6 @@ sf::RectangleShape Alien::getRenderer() {
 
 void Alien::setDead() {
 	dead = true;
-	std::cout << "splat" << std::endl;
 }
 
 bool Alien::isDead() {
@@ -19,6 +18,5 @@ void Alien::setRenderer(sf::RectangleShape shape) {
 }
 
 void Alien::move(sf::RectangleShape shape, int moveX, int moveY) {
-	std::cout << "Move alien. current pos: " << shape.getPosition().x << " moving by " << moveX << std::endl;
 	shape.move(moveX, moveY);
 }

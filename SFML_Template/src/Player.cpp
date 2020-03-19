@@ -10,15 +10,12 @@ sf::RectangleShape Player::getRenderer() {
 }
 
 void Player::moveLeft(sf::RectangleShape &shape) {
-	shape.move(-10, 0);
-	cout << "slide to the left" << endl;
+	shape.move(-15, 0);
 }
 
 void Player::moveRight(sf::RectangleShape &shape) {
-	shape.move(10, 0);
-	cout << "slide to the right" << endl;
+	shape.move(15, 0);
 }
 
 void Player::shoot() {
-	cout << "criss cross" << endl;
 }
