@@ -21,14 +21,16 @@
   <ItemGroup>
     <ClCompile Include="include\test.cpp" />
     <ClCompile Include="src\Alien.cpp" />
+    <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Screen.cpp" />
+    <ClCompile Include="src\Properties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Alien.h" />
+    <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Screen.h" />
+    <ClInclude Include="include\Properties.h" />
     <ClInclude Include="include\test.h" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Debug\SFML_Template.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\Alien_1_a.png" />
+    <Image Include="assets\textures\Alien_1_b.png" />
+    <Image Include="assets\textures\Alien_2_a.png" />
+    <Image Include="assets\textures\Alien_2_b.png" />
+    <Image Include="assets\textures\Alien_3_a.png" />
+    <Image Include="assets\textures\Alien_3_b.png" />
+    <Image Include="assets\textures\Player.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

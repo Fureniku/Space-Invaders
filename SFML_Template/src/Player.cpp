@@ -5,11 +5,11 @@
 using std::cout;
 using std::endl;
 
-sf::RectangleShape Player::getRenderer() {
-	return render;
+sf::Sprite Player::getRenderer() {
+	return sprite;
 }
 
-void Player::move(sf::RectangleShape &shape, int amount) {
+void Player::move(sf::Sprite &shape, int amount) {
 	shape.move(amount, 0);
 }
 

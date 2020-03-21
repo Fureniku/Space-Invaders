@@ -1,22 +1,25 @@
 #include "../include/Alien.h"
 #include <iostream>
 
-sf::RectangleShape Alien::getRenderer() {
-	return render;
+sf::Sprite Alien::getRenderer() {
+	if (texture.loadFromFile(".\\assets\\textures\\" + texName + (aType ? "a" : "b") + ".png")) {
+		sprite.setTexture(texture);
+	}
+	return sprite;
 }
 
-void Alien::setDead() {
-	dead = true;
+void Alien::setRenderer(sf::Sprite s) {
+	sprite = s;
 }
 
-bool Alien::isDead() {
-	return dead;
+void Alien::move(sf::Sprite s, int moveX, int moveY) {
+	s.move(moveX, moveY);
 }
 
-void Alien::setRenderer(sf::RectangleShape shape) {
-	render = shape;
+bool Alien::getType() {
+	return aType;
 }
 
-void Alien::move(sf::RectangleShape shape, int moveX, int moveY) {
-	shape.move(moveX, moveY);
+void Alien::toggleType() {
+	aType = !aType;
 }

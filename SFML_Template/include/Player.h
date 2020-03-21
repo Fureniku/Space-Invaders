@@ -1,18 +1,26 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Properties.h"
+#include "Bullet.h"
 
 class Player {
 public:
-	sf::RectangleShape render;
-	sf::RectangleShape getRenderer();
-	void shoot();
-	void move(sf::RectangleShape &shape, int amount);
-
+	sf::Texture texture;
+	sf::Sprite sprite;
+	Properties p;
 
 	Player() {
-		render.setSize(sf::Vector2f(60.0F, 20.0F));
-		render.setOrigin(render.getSize().x / 2.0F, render.getSize().y / 2.0F);
-		render.setPosition(800 / 2, 512 - 30);
-		render.setFillColor(sf::Color::Red);
+		if (texture.loadFromFile(".\\assets\\textures\\Player.png")) {
+			sprite.setTexture(texture);
+
+			//sprite.setSize(sf::Vector2f(26.0F * p.getScale(), 16.0F * p.getScale()));
+			sprite.setOrigin(texture.getSize().x / 2.0F, texture.getSize().y / 2.0F);
+			sprite.setPosition(p.getWindowXSize() / 2, p.getWindowYSize() - (30 * p.getScale()));
+			sprite.setColor(sf::Color(0, 255, 0));
+		}
 	}
+
+	sf::Sprite getRenderer();
+	void shoot();
+	void move(sf::Sprite &shape, int amount);
 };
