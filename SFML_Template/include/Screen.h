@@ -2,6 +2,7 @@
 #pragma once
 
 class Screen {
+	/*
 public:
 	int xSize = 224;
 	int ySize = 256;
@@ -9,5 +10,5 @@ public:
 
 	Screen() {
 		window = sf::RenderWindow window(sf::VideoMode(xSize, ySize), "Spacey Bois", sf::Style::Default);
-	}
+	}*/
 };

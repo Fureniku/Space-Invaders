@@ -1,4 +1,4 @@
-#include "Alien.h"
+#include "../include/Alien.h"
 #include <iostream>
 
 sf::RectangleShape Alien::getRenderer() {

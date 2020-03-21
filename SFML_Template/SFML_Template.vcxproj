@@ -32,6 +32,20 @@
     <ClInclude Include="include\test.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\SFML_Template.tlog\CL.command.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\CL.read.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\CL.write.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link-cvtres.read.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link-cvtres.write.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link-rc.read.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link-rc.write.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link.command.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link.read.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\link.write.1.tlog" />
+    <None Include="Debug\SFML_Template.tlog\SFML_Template.lastbuildstate" />
+    <None Include="Debug\SFML_Template.tlog\unsuccessfulbuild" />
+    <None Include="Debug\vc141.idb" />
+    <None Include="Debug\vc141.pdb" />
     <None Include="openal32.dll" />
     <None Include="sfml-audio-2.dll" />
     <None Include="sfml-audio-d-2.dll" />
@@ -43,6 +57,13 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Debug\main.obj" />
+    <Object Include="Debug\test.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Debug\SFML_Template.log" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -97,8 +118,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(SolutionDir)/../External Libraries/SFML/bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>../include;./include;$(IncludePath)</IncludePath>
-    <SourcePath>../src;./src;$(SourcePath)</SourcePath>
+    <IncludePath>../include;$(IncludePath)</IncludePath>
+    <SourcePath>../src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExecutablePath>$(SolutionDir)/../External Libraries/SFML/bin;$(ExecutablePath)</ExecutablePath>

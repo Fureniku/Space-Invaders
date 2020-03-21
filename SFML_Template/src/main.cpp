@@ -1,12 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Player.h"
-#include "Alien.h"
+#include "../include/Player.h"
+#include "../include/Alien.h"
 
 //using namespace std;
 using namespace std;
-extern int xSize = 224;
-extern int ySize = 256;
+extern int xSize = 1000;//224;
+extern int ySize = 1000;// 256;
 
 int main()
 {
@@ -100,11 +100,11 @@ int main()
 			}
 
 			if (bIsLeftPressed && !bIsRightPressed) {
-				player.moveLeft(playerRender);
+				player.move(playerRender, -15);
 			}
 
 			if (bIsRightPressed && !bIsLeftPressed) {
-				player.moveRight(playerRender);
+				player.move(playerRender, 15);
 			}
 
 			if (bIsSpacePressed) {

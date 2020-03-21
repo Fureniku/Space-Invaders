@@ -6,8 +6,7 @@ public:
 	sf::RectangleShape render;
 	sf::RectangleShape getRenderer();
 	void shoot();
-	void moveLeft(sf::RectangleShape &shape);
-	void moveRight(sf::RectangleShape &shape);
+	void move(sf::RectangleShape &shape, int amount);
 
 
 	Player() {
