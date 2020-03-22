@@ -1,11 +1,11 @@
 #include "../include/Properties.h"
 
 int Properties::getWindowXSize() {
-	return Properties::xSize;
+	return Properties::xSize * Properties::scale;
 }
 
 int Properties::getWindowYSize() {
-	return Properties::ySize;
+	return Properties::ySize * Properties::scale;
 }
 
 float Properties::getScale() {

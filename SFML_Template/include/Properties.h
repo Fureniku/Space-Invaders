@@ -5,7 +5,7 @@ class Properties {
 public:
 	const int xSize = 512;
 	const int ySize = 512;
-	const float scale = 1.0F;
+	const float scale = 2.0F;
 
 	int getWindowXSize();
 	int getWindowYSize();

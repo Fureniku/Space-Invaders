@@ -13,7 +13,7 @@ public:
 		if (texture.loadFromFile(".\\assets\\textures\\Player.png")) {
 			sprite.setTexture(texture);
 
-			//sprite.setSize(sf::Vector2f(26.0F * p.getScale(), 16.0F * p.getScale()));
+			sprite.setScale(sf::Vector2f(p.getScale(), p.getScale()));
 			sprite.setOrigin(texture.getSize().x / 2.0F, texture.getSize().y / 2.0F);
 			sprite.setPosition(p.getWindowXSize() / 2, p.getWindowYSize() - (30 * p.getScale()));
 			sprite.setColor(sf::Color(0, 255, 0));
