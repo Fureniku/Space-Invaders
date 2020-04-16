@@ -3,7 +3,6 @@
 #include <iostream>
 #include "../include/Player.h"
 #include "../include/Bullet.h"
-#include "../include/Properties.h"
 #include "../include/Alien.h"
 #include "../include/Barrier.h"
 #include "../include/DisplayManager.h"
@@ -15,8 +14,11 @@ private:
 	int barrier_3_position = 320;
 	int barrier_4_position = 448;
 
-	float const alienDefaultSpeed = 0.5f;
-	int const alienDefaultShootChance = 75;
+	const int playerBulletSpeed = 10;
+	const int alienBulletSpeed = 1;
+
+	const float alienDefaultSpeed = 0.5f;
+	const int alienDefaultShootChance = 75;
 
 	float alienBaseSpeed = 0.5f;
 	float alienSpeedModifier = 150.f; //baseSpeed - (Current dead aliens / alienSpeedMofidier) = actual speed. Higher number = more gradual increase as aliens die.
@@ -28,9 +30,6 @@ private:
 
 	//The space where aliens and players can exist
 	sf::FloatRect gameArea;
-
-	//Object of our properties file
-	Properties prop;
 
 	//Create objects of clock to run the game tick for moving aliens and moving bullets
 	sf::Clock alienMovementTimer;
@@ -57,6 +56,9 @@ private:
 	//Set to true to force a one second delay in processing. Adds a nice slightly retro "loading" feel when making new games.
 	bool forcedPauseDelay = false;
 
+	int xSize;
+	int ySize;
+
 	//Object of the player
 	Player player;
 
@@ -77,8 +79,10 @@ public:
 	std::vector<Barrier>* barrier_vector_3 = new std::vector<Barrier>;
 	std::vector<Barrier>* barrier_vector_4 = new std::vector<Barrier>;
 
-	GameManager(Player &p) : player(p) {
+	GameManager(Player &p, int screenSizeX, int screenSizeY) : player(p), dispMan(screenSizeX, screenSizeY) {
 		gameArea = sf::FloatRect(32, 32, 448, 512);
+		xSize = screenSizeX;
+		ySize = screenSizeY;
 	}
 
 	void drawGameObjects(sf::RenderWindow &window);

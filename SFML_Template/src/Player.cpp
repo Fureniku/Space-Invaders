@@ -11,7 +11,7 @@ void Player::drawLives(sf::RenderWindow &window) {
 		sf::Sprite s = sprite;
 
 		s.setOrigin(texture.getSize().x / 2.0F, texture.getSize().y / 2.0F);
-		s.setPosition((40 + i * (texture.getSize().x + 5)), p.getWindowYSize() - 20);
+		s.setPosition((40 + i * (texture.getSize().x + 5)), ySize - 20);
 		s.setColor(sf::Color(0, 255, 0));
 
 		window.draw(s);
@@ -26,13 +26,23 @@ void Player::shoot(GameManager &manager) {
 }
 
 void Player::getShot() {
-	if (lives > 0) {
+	if (lives > 0 && respawnTimer <= 0) {
 		lives--;
-
-		cout << lives << endl;
-
-		resetPosition();
+		respawnTimer = respawnTime;
 	}
+}
+
+bool Player::isPlayerDead() {
+	if (respawnTimer > 0) {
+		std::cout << "Respawn timer: " << respawnTimer << std::endl;
+		respawnTimer--;
+		//Respawn timer reaches zero - move them to spawn point
+		if (respawnTimer == 0) {
+			resetPosition();
+		}
+		return true;
+	}
+	return false;
 }
 
 int Player::getLives() {
@@ -44,13 +54,22 @@ void Player::addLives(int amt) {
 }
 
 void Player::resetPosition() {
+	respawnTimer = 0; //Ensure timer is zero on reset - useful for after a new game etc
 	sprite.setPosition(defaultX, defaultY);
 }
 
 sf::Sprite Player::getSprite() {
+	if (isPlayerDead()) {
+		sprite.setTexture(texture_dead);
+	}
+	else {
+		sprite.setTexture(texture);
+	}
 	return sprite;
 }
 
 void Player::move(int amount) {
-	sprite.move(amount, 0);
+	if (respawnTimer <= 0) {
+		sprite.move(amount, 0);
+	}
 }

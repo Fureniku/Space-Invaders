@@ -27,7 +27,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Mothership.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Properties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Alien.h" />
@@ -37,7 +36,6 @@
     <ClInclude Include="include\GameManager.h" />
     <ClInclude Include="include\Mothership.h" />
     <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Properties.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\SFML_Template.tlog\CL.command.1.tlog" />
@@ -94,6 +92,7 @@
     <Image Include="assets\textures\Mothership_a.png" />
     <Image Include="assets\textures\Mothership_b.png" />
     <Image Include="assets\textures\Player.png" />
+    <Image Include="assets\textures\Player_Dead.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\pixeled.ttf" />

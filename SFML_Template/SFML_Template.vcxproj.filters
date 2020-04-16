@@ -27,9 +27,6 @@
     <ClCompile Include="src\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Properties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GameManager.h">
@@ -172,6 +166,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\textures\Mothership_b.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Player_Dead.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../include/Player.h"
 #include "../include/Bullet.h"
-#include "../include/Properties.h"
 #include "../include/Alien.h"
 #include "../include/GameManager.h"
 #include "../include/DisplayManager.h"
@@ -10,21 +9,22 @@
 //Create object of font for drawing text
 sf::Font font;
 
-Properties prop;
-
 bool inMainMenu = true;
 
+int screenSizeX = 512;
+int screenSizeY = 512;
+
 int main() {
-	sf::RenderWindow window(sf::VideoMode(prop.getWindowXSize(), prop.getWindowYSize()), "The Invaders from Space", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode(screenSizeX, screenSizeY), "The Invaders from Space", sf::Style::Default);
 
 	//Place the game window in the middle of the screen (screen width/2 - window size/2, same for height)
-	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width / 2) - (prop.getWindowXSize() / 2), (sf::VideoMode::getDesktopMode().height / 2) - (prop.getWindowYSize() / 2)));
+	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width / 2) - (screenSizeX / 2), (sf::VideoMode::getDesktopMode().height / 2) - (screenSizeY / 2)));
 	window.setFramerateLimit(60); // Set the limit of the the number of frames per second
 
-	Player player;
+	Player player(screenSizeX, screenSizeY);
 
-	GameManager gameManager(player);
-	DisplayManager displayManager;
+	GameManager gameManager(player, screenSizeX, screenSizeY);
+	DisplayManager displayManager(screenSizeX, screenSizeY);
 
 	gameManager.setupGame(false);
 

@@ -93,7 +93,7 @@ void GameManager::gameTick() {
 
 	if (!mothershipActive) {
 		if (rand() % mothershipSpawnChance == 1) {
-			mothership = Mothership(prop.getWindowXSize() + 40, 75);
+			mothership = Mothership(xSize + 40, 75);
 			mothershipActive = true;
 		}
 	}
@@ -179,7 +179,7 @@ void GameManager::keyListener(sf::RenderWindow &window) {
 		player.move(-5);
 	}
 
-	if (rightKeyPressed && !leftKeyPressed && player.getSprite().getPosition().x < (prop.getWindowXSize() - player.getSprite().getLocalBounds().width / 2)) {
+	if (rightKeyPressed && !leftKeyPressed && player.getSprite().getPosition().x < (xSize - player.getSprite().getLocalBounds().width / 2)) {
 		player.move(5);
 	}
 
@@ -218,8 +218,8 @@ void GameManager::drawGameObjects(sf::RenderWindow &window) {
 	dispMan.drawText(window, barrier_1_position, 20, "SCORE", true, 18);
 	dispMan.drawText(window, barrier_1_position, 50, std::to_string(score), true, 18);
 
-	dispMan.drawText(window, prop.getWindowXSize() / 2, 20, "HI-SCORE", true, 18);
-	dispMan.drawText(window, prop.getWindowXSize() / 2, 50, std::to_string(hiscore), true, 18);
+	dispMan.drawText(window, xSize / 2, 20, "HI-SCORE", true, 18);
+	dispMan.drawText(window, xSize / 2, 50, std::to_string(hiscore), true, 18);
 
 	if (mothershipActive) {
 		window.draw(mothership.getSprite());
@@ -237,7 +237,7 @@ void GameManager::drawGameObjects(sf::RenderWindow &window) {
 
 bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 	//Check if the bullet is vertically in the area for our barriers.
-	if (bullet.getSprite().getPosition().y >= prop.getWindowYSize() - 100 && bullet.getSprite().getPosition().y <= prop.getWindowYSize() - 62) {
+	if (bullet.getSprite().getPosition().y >= ySize - 100 && bullet.getSprite().getPosition().y <= ySize - 62) {
 		sf::FloatRect bulletBoundingBox = bullet.getSprite().getGlobalBounds();
 
 		//Within barrier 1's bounds
@@ -306,7 +306,7 @@ void GameManager::movePlayerBullet(Player &player) {
 		Bullet b = bulletVector->at(i);
 		if (b.isPlayerOwned) {
 			sf::RectangleShape bullet = b.getSprite();
-			b.move(bullet, -prop.playerBulletSpeed);
+			b.move(bullet, -playerBulletSpeed);
 
 			b.setSprite(bullet);
 			bulletVector->at(i) = b;
@@ -369,7 +369,7 @@ void GameManager::moveAlienBullet(Player &player) {
 		Bullet b = bulletVector->at(i);
 		if (!b.isPlayerOwned) {
 			sf::RectangleShape bullet = b.getSprite();
-			b.move(bullet, prop.alienBulletSpeed);
+			b.move(bullet, alienBulletSpeed);
 
 			b.setSprite(bullet);
 			bulletVector->at(i) = b;
@@ -380,7 +380,7 @@ void GameManager::moveAlienBullet(Player &player) {
 			}
 
 			//handle alien bullets
-			if (bullet.getPosition().y > prop.getWindowYSize()) {
+			if (bullet.getPosition().y > ySize) {
 				//It's off screen, remove the bullet from the vector
 				bulletVector->erase(bulletVector->begin() + i);
 				i--;
@@ -389,7 +389,7 @@ void GameManager::moveAlienBullet(Player &player) {
 				//Get the bullets bounding box
 				sf::FloatRect bulletBoundingBox = bullet.getGlobalBounds();
 
-				if (bullet.getPosition().y > prop.getWindowYSize() - 80 && bullet.getPosition().y < prop.getWindowYSize() - 40) {
+				if (bullet.getPosition().y > ySize - 80 && bullet.getPosition().y < ySize - 40) {
 					sf::FloatRect playerBoundingBox = player.getSprite().getGlobalBounds();
 					if (bulletBoundingBox.intersects(playerBoundingBox)) {
 						//TODO kill player
@@ -407,11 +407,6 @@ int directionCooldown = 0; //A cooldown for changing directions, to stop it chan
 
 void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 	int moveVertical = 0;
-
-	int leftPos = prop.getWindowXSize();
-	int rightPos = 0;
-	int topPos = prop.getWindowYSize();
-	int bottomPos = 0;
 
 	//If the aliens were out of bounds, this will be 5.
 	if (directionCooldown == 5) {
@@ -438,7 +433,7 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 			directionCooldown = 5;
 		}
 
-		if (alien.getPosition().y > prop.getWindowYSize()) {
+		if (alien.getPosition().y > ySize) {
 			//Player loses a life if an alien goes off screen...
 			player.getShot();
 			//..but the alien dies in the process.
@@ -451,7 +446,7 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 		if (!a.isDead()) {
 			a.shoot(alienShootChance, *this->bulletVector);
 
-			if (alien.getPosition().y > prop.getWindowYSize() - 99 && alien.getPosition().y < prop.getWindowYSize() - 63) {
+			if (alien.getPosition().y > ySize - 99 && alien.getPosition().y < ySize - 63) {
 				sf::FloatRect alienBoundingBox = alien.getGlobalBounds();
 				//Check for alien-barrier collision
 				if (alien.getPosition().x >= barrier_1_position - 32 && alien.getPosition().x <= barrier_1_position + 32) {
@@ -508,19 +503,19 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 
 void GameManager::createBarrier(std::vector<Barrier> &vec, int xPos) {
 	//bottom row
-	vec.push_back(Barrier(xPos - 30, prop.getWindowYSize() - 75, "Full_Barrier", 0));
-	vec.push_back(Barrier(xPos + 18, prop.getWindowYSize() - 75, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos - 30, ySize - 75, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos + 18, ySize - 75, "Full_Barrier", 0));
 
 	//middle row
-	vec.push_back(Barrier(xPos - 30, prop.getWindowYSize() - 87, "Full_Barrier", 0));
-	vec.push_back(Barrier(xPos - 18, prop.getWindowYSize() - 87, "Lower_Barrier_L", 0));
-	vec.push_back(Barrier(xPos +  6, prop.getWindowYSize() - 87, "Lower_Barrier_R", 0));
-	vec.push_back(Barrier(xPos + 18, prop.getWindowYSize() - 87, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos - 30, ySize - 87, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos - 18, ySize - 87, "Lower_Barrier_L", 0));
+	vec.push_back(Barrier(xPos +  6, ySize - 87, "Lower_Barrier_R", 0));
+	vec.push_back(Barrier(xPos + 18, ySize - 87, "Full_Barrier", 0));
 
 	//top row
-	vec.push_back(Barrier(xPos - 30, prop.getWindowYSize() - 99, "Corner_Barrier", 0));
-	vec.push_back(Barrier(xPos - 18, prop.getWindowYSize() - 99, "Full_Barrier", 0));
-	vec.push_back(Barrier(xPos -  6, prop.getWindowYSize() - 99, "Full_Barrier", 0));
-	vec.push_back(Barrier(xPos +  6, prop.getWindowYSize() - 99, "Full_Barrier", 0));
-	vec.push_back(Barrier(xPos + 18, prop.getWindowYSize() - 99, "Corner_Barrier", 90));
+	vec.push_back(Barrier(xPos - 30, ySize - 99, "Corner_Barrier", 0));
+	vec.push_back(Barrier(xPos - 18, ySize - 99, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos -  6, ySize - 99, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos +  6, ySize - 99, "Full_Barrier", 0));
+	vec.push_back(Barrier(xPos + 18, ySize - 99, "Corner_Barrier", 90));
 }

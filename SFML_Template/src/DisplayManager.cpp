@@ -14,33 +14,33 @@ void DisplayManager::drawMainMenuScreen(sf::RenderWindow &window, bool &inMainMe
 		a3.toggleType();
 	}
 
-	drawText(window, prop.getWindowXSize() / 2, 30, "THE INVADERS", true, 24);
+	drawText(window, xSize / 2, 30, "THE INVADERS", true, 24);
 	if (timer > 60) drawText(window, 87, 70, "FROM", false, 36);
 	if (timer > 100) drawText(window, 252, 70, "SPACE", false, 36);
 
-	if (timer > 150) drawText(window, prop.getWindowXSize() / 2, 160, "SCORE GUIDE", true, 18);
+	if (timer > 150) drawText(window, xSize / 2, 160, "SCORE GUIDE", true, 18);
 
 	if (timer > 180) {
-		drawText(window, prop.getWindowXSize() / 2 - 30, 200, "= 100 POINTS", false, 18);
+		drawText(window, xSize / 2 - 30, 200, "= 100 POINTS", false, 18);
 		window.draw(m1.getSprite());
 	}
 
 	if (timer > 210) {
-		drawText(window, prop.getWindowXSize() / 2 - 30, 240, "=  30 POINTS", false, 18);
+		drawText(window, xSize / 2 - 30, 240, "=  30 POINTS", false, 18);
 		window.draw(a1.getSprite());
 	}
 
 	if (timer > 240) {
-		drawText(window, prop.getWindowXSize() / 2 - 30, 280, "=  20 POINTS", false, 18);
+		drawText(window, xSize / 2 - 30, 280, "=  20 POINTS", false, 18);
 		window.draw(a2.getSprite());
 	}
 
 	if (timer > 270) {
-		drawText(window, prop.getWindowXSize() / 2 - 30, 320, "=  10 POINTS", false, 18);
+		drawText(window, xSize / 2 - 30, 320, "=  10 POINTS", false, 18);
 		window.draw(a3.getSprite());
 	}
 
-	if (timer > 300) drawText(window, prop.getWindowXSize() / 2, prop.getWindowYSize() - 80, "PRESS [SPACE] TO START", true, 18);
+	if (timer > 300) drawText(window, xSize / 2, ySize - 80, "PRESS [SPACE] TO START", true, 18);
 
 	while (window.pollEvent(event)) {
 		// User has pressed the close button
@@ -69,8 +69,8 @@ void DisplayManager::drawMainMenuScreen(sf::RenderWindow &window, bool &inMainMe
 void DisplayManager::drawPauseScreen(sf::RenderWindow &window, GameManager &gm) {
 	window.clear();
 
-	drawText(window, prop.getWindowXSize() / 2, 100, "GAME PAUSED", true, 14);
-	drawText(window, prop.getWindowXSize() / 2, 140, "PRESS [SPACE] OR [ENTER] TO RESUME", true, 14);
+	drawText(window, xSize / 2, 100, "GAME PAUSED", true, 14);
+	drawText(window, xSize / 2, 140, "PRESS [SPACE] OR [ENTER] TO RESUME", true, 14);
 
 	window.display();
 
@@ -92,9 +92,9 @@ void DisplayManager::drawPauseScreen(sf::RenderWindow &window, GameManager &gm) 
 
 void DisplayManager::drawGameOverScreen(sf::RenderWindow &window, GameManager &gm) {
 	window.clear();
-	drawText(window, prop.getWindowXSize() / 2, 100, "GAME OVER!", true, 14);
-	drawText(window, prop.getWindowXSize() / 2, 140, "PRESS [SPACE] TO START NEW GAME", true, 14);
-	drawText(window, prop.getWindowXSize() / 2, 180, "PRESS [ESCAPE] TO EXIT", true, 14);
+	drawText(window, xSize / 2, 100, "GAME OVER!", true, 14);
+	drawText(window, xSize / 2, 140, "PRESS [SPACE] TO START NEW GAME", true, 14);
+	drawText(window, xSize / 2, 180, "PRESS [ESCAPE] TO EXIT", true, 14);
 	window.display();
 
 	while (window.pollEvent(event)) {
