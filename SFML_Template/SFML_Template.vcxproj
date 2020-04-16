@@ -19,33 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\test.cpp" />
     <ClCompile Include="src\Alien.cpp" />
+    <ClCompile Include="src\Barrier.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\DisplayManager.cpp" />
+    <ClCompile Include="src\GameManager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Mothership.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Properties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Alien.h" />
+    <ClInclude Include="include\Barrier.h" />
     <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\DisplayManager.h" />
+    <ClInclude Include="include\GameManager.h" />
+    <ClInclude Include="include\Mothership.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Properties.h" />
-    <ClInclude Include="include\test.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\SFML_Template.tlog\CL.command.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\CL.read.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\CL.write.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-cvtres.read.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-cvtres.write.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-rc.read.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-rc.write.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.command.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.read.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.write.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\SFML_Template.lastbuildstate" />
-    <None Include="Debug\SFML_Template.tlog\unsuccessfulbuild" />
     <None Include="Debug\vc141.idb" />
     <None Include="Debug\vc141.pdb" />
     <None Include="openal32.dll" />
@@ -74,7 +75,29 @@
     <Image Include="assets\textures\Alien_2_b.png" />
     <Image Include="assets\textures\Alien_3_a.png" />
     <Image Include="assets\textures\Alien_3_b.png" />
+    <Image Include="assets\textures\Corner_Barrier_100.png" />
+    <Image Include="assets\textures\Corner_Barrier_25.png" />
+    <Image Include="assets\textures\Corner_Barrier_50.png" />
+    <Image Include="assets\textures\Corner_Barrier_75.png" />
+    <Image Include="assets\textures\Full_Barrier_100.png" />
+    <Image Include="assets\textures\Full_Barrier_25.png" />
+    <Image Include="assets\textures\Full_Barrier_50.png" />
+    <Image Include="assets\textures\Full_Barrier_75.png" />
+    <Image Include="assets\textures\Lower_Barrier_L_100.png" />
+    <Image Include="assets\textures\Lower_Barrier_L_25.png" />
+    <Image Include="assets\textures\Lower_Barrier_L_50.png" />
+    <Image Include="assets\textures\Lower_Barrier_L_75.png" />
+    <Image Include="assets\textures\Lower_Barrier_R_100.png" />
+    <Image Include="assets\textures\Lower_Barrier_R_25.png" />
+    <Image Include="assets\textures\Lower_Barrier_R_50.png" />
+    <Image Include="assets\textures\Lower_Barrier_R_75.png" />
+    <Image Include="assets\textures\Mothership_a.png" />
+    <Image Include="assets\textures\Mothership_b.png" />
     <Image Include="assets\textures\Player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\pixeled.ttf" />
+    <Font Include="D:\Downloads\pixeled\Pixeled.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -1,10 +1,10 @@
 #include "../include/Bullet.h"
 
-sf::RectangleShape Bullet::getRenderer() {
+sf::RectangleShape Bullet::getSprite() {
 	return render;
 }
 
-void Bullet::setRenderer(sf::RectangleShape shape) {
+void Bullet::setSprite(sf::RectangleShape shape) {
 	render = shape;
 }
 
@@ -16,3 +16,4 @@ void Bullet::move(sf::RectangleShape &shape, int amount) {
 		shape.move(0, 10);
 	}
 }
+

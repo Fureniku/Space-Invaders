@@ -1,11 +1,16 @@
 #include "../include/Alien.h"
+#include "../include/GameManager.h"
 #include <iostream>
 
-sf::Sprite Alien::getRenderer() {
-	//Get the texture name when creating the alien, and check whether to render type A or type B (inverted every time they move)
-	if (texture.loadFromFile(".\\assets\\textures\\" + texName + (aType ? "a" : "b") + ".png")) {
-		sprite.setTexture(texture);
+sf::Sprite Alien::getSprite() {
+	//Assign the texture depending on which stage of animation we're in
+	if (aType) {
+		sprite.setTexture(texture_a);
 	}
+	else {
+		sprite.setTexture(texture_b);
+	}
+	//Return the sprite with the updated texture
 	return sprite;
 }
 
@@ -13,13 +18,18 @@ void Alien::setRenderer(sf::Sprite s) {
 	sprite = s;
 }
 
-void Alien::move(sf::Sprite &s, bool moveRight, int moveX, int moveY) {
+sf::Sprite Alien::move(bool moveRight, int moveX, int moveY) {
 	if (moveY > 0) {
-		s.move(0, moveY);
+		sprite.move(0, moveY);
 	}
 	else {
-		s.move(moveRight ? moveX : -moveX, 0);
+		sprite.move(moveRight ? moveX : -moveX, 0);
 	}
+
+	//Switch between A texture and B texture
+	this->toggleType();
+
+	return sprite;
 }
 
 bool Alien::getType() {
@@ -28,4 +38,23 @@ bool Alien::getType() {
 
 void Alien::toggleType() {
 	aType = !aType;
+}
+
+void Alien::kill(GameManager &manager) {
+	manager.addToScore(getPointValue());
+	dead = true;
+}
+
+bool Alien::isDead() {
+	return dead;
+}
+
+int Alien::getPointValue() {
+	return value;
+}
+
+void Alien::shoot(int chance, std::vector<Bullet> &bulletVector) {
+	if (rand() % chance == 1) {
+		bulletVector.push_back(Bullet(false, getSprite().getPosition().x, getSprite().getPosition().y));
+	}
 }

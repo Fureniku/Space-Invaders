@@ -18,10 +18,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\test.cpp">
+    <ClCompile Include="src\Alien.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Alien.cpp">
+    <ClCompile Include="src\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
@@ -30,24 +30,42 @@
     <ClCompile Include="src\Properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bullet.cpp">
+    <ClCompile Include="src\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Barrier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DisplayManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mothership.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\test.h">
+    <ClInclude Include="include\Alien.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Alien.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Bullet.h">
+    <ClInclude Include="include\GameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Barrier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DisplayManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mothership.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,20 +81,15 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+    <None Include="Debug\vc141.idb" />
+    <None Include="Debug\vc141.pdb" />
     <None Include="Debug\SFML_Template.tlog\CL.command.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\CL.read.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\CL.write.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.command.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.read.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\link.write.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-cvtres.read.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-cvtres.write.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-rc.read.1.tlog" />
-    <None Include="Debug\SFML_Template.tlog\link-rc.write.1.tlog" />
     <None Include="Debug\SFML_Template.tlog\SFML_Template.lastbuildstate" />
-    <None Include="Debug\SFML_Template.tlog\unsuccessfulbuild" />
-    <None Include="Debug\vc141.idb" />
-    <None Include="Debug\vc141.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="Debug\main.obj" />
@@ -107,5 +120,63 @@
     <Image Include="assets\textures\Player.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\textures\Full_Barrier_25.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Full_Barrier_50.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Full_Barrier_75.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Full_Barrier_100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Corner_Barrier_25.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Corner_Barrier_50.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Corner_Barrier_75.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Corner_Barrier_100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_L_25.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_L_50.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_L_75.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_L_100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_R_25.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_R_50.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_R_75.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Lower_Barrier_R_100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Mothership_a.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\Mothership_b.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="D:\Downloads\pixeled\Pixeled.ttf" />
+    <Font Include="assets\fonts\pixeled.ttf" />
   </ItemGroup>
 </Project>
