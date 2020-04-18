@@ -13,6 +13,7 @@ private:
 
 	sf::Event event;
 
+	//The size of the screen, passed from main
 	int xSize;
 	int ySize;
 
@@ -28,11 +29,11 @@ private:
 
 public:
 	DisplayManager(int screenSizeX, int screenSizeY) :
-	a1(sf::Color::Magenta, screenSizeX / 2 - 70, 250, "Alien_1_", 0),
-	a2(sf::Color::Yellow, screenSizeX / 2 - 70, 290, "Alien_2_", 0),
-	a3(sf::Color::Cyan, screenSizeX / 2 - 70, 330, "Alien_3_", 0),
+	a1(sf::Color::Magenta, screenSizeX / 2 - 90, 250, "Alien_1_", 0),
+	a2(sf::Color::Yellow, screenSizeX / 2 - 90, 290, "Alien_2_", 0),
+	a3(sf::Color::Cyan, screenSizeX / 2 - 90, 330, "Alien_3_", 0),
 
-	m1(screenSizeX / 2 - 70, 210)
+	m1(screenSizeX / 2 - 90, 210)
 	{
 		xSize = screenSizeX;
 		ySize = screenSizeY;
@@ -42,7 +43,7 @@ public:
 		}
 	}
 
-	void drawMainMenuScreen(sf::RenderWindow &window, bool &inMainMenu);
+	void drawMainMenuScreen(sf::RenderWindow &window, bool &inMainMenu, GameManager &gm);
 	void drawPauseScreen(sf::RenderWindow &window, GameManager &gm);
 	void drawGameOverScreen(sf::RenderWindow &window, GameManager &gm);
 

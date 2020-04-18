@@ -2,19 +2,29 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include <string>
+#include <iostream>
 
 class GameManager;
 
 class Alien {
-protected:
+private:
+	//Create objects to hold our two textures for each state of the animation
 	sf::Texture texture_a;
 	sf::Texture texture_b;
-	sf::Sprite sprite;
+	//Which stage of the animation we are in
 	bool aType = true;
 	bool dead = false;
+	//The amount of points awarded for killing the alien
 	int value = 0;
+	//The name of the texture passed via the constructor
 	std::string texName;
+protected:
+	//Object of the sprite so we're not constantly making a new one every frame
+	sf::Sprite sprite;
 
+	//SFX things
+	sf::SoundBuffer buffer_dead;
+	sf::Sound sfx_dead;
 public:
 	Alien(sf::Color col, int startX, int startY, std::string textureName, int pointsValue) {
 		texName = textureName;
@@ -28,6 +38,8 @@ public:
 		}
 		//Register the B texture as well, for later use in animation
 		texture_b.loadFromFile(".\\assets\\textures\\" + textureName + "b.png");
+
+		buffer_dead.loadFromFile(".\\assets\\sounds\\invaderkilled.wav");
 	}
 
 	sf::Sprite getSprite();

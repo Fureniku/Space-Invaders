@@ -8,6 +8,7 @@ void GameManager::setupGame(bool playerWin) {
 			sf::Color col = sf::Color::Magenta;
 			std::string texture = "Alien_1_";
 			int pointValue = 30;
+			//Set some properties depending on the row of aliens
 			if (j == 1) {
 				col = sf::Color::Blue;
 			}
@@ -27,7 +28,7 @@ void GameManager::setupGame(bool playerWin) {
 				pointValue = 10;
 			}
 			//Add this alien to the vector, setting its colour, and starting x/y position
-			alienVector->push_back(Alien(col, (i * 32) + 32, (j * 32) + 96, texture, pointValue));
+			alienVector->push_back(Alien(col, (i * 32) + 32, (j * 32) + 94, texture, pointValue));
 		}
 	}
 	if (!playerWin) {
@@ -38,6 +39,7 @@ void GameManager::setupGame(bool playerWin) {
 	}
 }
 
+//Start a new game, either as a winner (cleared all aliens) or loser (lost all lives).
 void GameManager::newGame(bool playerWin) {
 	isGameOver = false; //Set back to false if this came from a loss
 
@@ -53,6 +55,7 @@ void GameManager::newGame(bool playerWin) {
 
 		//Each time the player has a consecutive win, the game gets a bit harder. After 10 wins its basically impossible :) 
 		alienBaseSpeed -= 0.05f;
+		alienSpeedModifier -= 0.04f; //By the fifth consecutive win, aliens will move at "max speed" when 5 or less remain.
 		alienShootChance -= 5;
 	}
 	else {
@@ -67,6 +70,7 @@ void GameManager::newGame(bool playerWin) {
 
 		//Set the difficulty modifiers back to the originals
 		alienBaseSpeed = alienDefaultSpeed;
+		alienSpeedModifier = alienDefaultModifier;
 		alienShootChance = alienDefaultShootChance;
 
 		//If the player happened to be holding a key when they lose, it doesn't get correctly reset due to the new screen popping up.
@@ -82,35 +86,58 @@ void GameManager::unpauseGame() {
 	isGamePaused = false;
 }
 
+//Called every frame - the function that does basically everything!
 void GameManager::gameTick() {
 	if (score > hiscore) {
+		//If the current score is better than high score, set the high score to current score.
 		hiscore = score;
 	}
 
+	//Game over, the player is out of lives!
 	if (player.getLives() <= 0) {
+		//Remove the mothership, if it was there when we died. Do this before the gameover screen, else it'll play its SFX forever.
+		mothership.toggleSFX(false);
+		mothership = Mothership();
+		mothershipCooldown = 500;
+		mothershipActive = false;
+
 		isGameOver = true;
 	}
 
+	//Attempt to spawn a mothership
 	if (!mothershipActive) {
-		if (rand() % mothershipSpawnChance == 1) {
+		if (mothershipCooldown > 0) {
+			mothershipCooldown--;
+		} else if (rand() % mothershipSpawnChance == 1) {
 			mothership = Mothership(xSize + 40, 75);
+			if (playSound()) {
+				mothership.toggleSFX(true);
+			}
 			mothershipActive = true;
 		}
 	}
 	else {
+		//Handle an existing mothership
 		mothership.move();
 		if (mothership.getSprite().getPosition().x < -10) {
+			if (playSound()) {
+				mothership.toggleSFX(false);
+			}
+			mothershipCooldown = 500;
 			mothershipActive = false;
 		}
 	}
 
+	//Move bullets every 0.05 seconds
 	if (bulletMovementTimer.getElapsedTime().asSeconds() > 0.05f) {
 		movePlayerBullet(player);
 		moveAlienBullet(player);
 		bulletMovementTimer.restart();
 	}
 
-	if (alienMovementTimer.getElapsedTime().asSeconds() > (alienBaseSpeed - ((maxAliens - livingAliens) / alienSpeedModifier))) {
+	//Handle the speed of the aliens movement. Aliens will speed up when less of them exist, and will also be generally faster for every consecutively won round.
+	int deadAliens = maxAliens - livingAliens;
+	if (alienMovementTimer.getElapsedTime().asSeconds() > (alienBaseSpeed - ((deadAliens / 100.f) * (deadAliens / alienSpeedModifier)))) {
 		//Move the aliens
 		moveAliens(moveRight, gameArea);
 		alienMovementTimer.restart();
@@ -126,11 +153,15 @@ void GameManager::gameTick() {
 	}
 
 	if (livingAliens == 0) {
+		//The last alien is removed, and as such there's no alien object left to play its death sound
+		//So, fallback to the death sound used for the mothership as a workaround.
+		sfx_dead.setBuffer(buffer_dead);
+		sfx_dead.play();
 		newGame(true);
 	}
 }
 
-void GameManager::keyListener(sf::RenderWindow &window) {
+void GameManager::eventHandler(sf::RenderWindow &window) {
 	// check all user events
 	sf::Event event;
 	while (window.pollEvent(event)) {
@@ -149,7 +180,7 @@ void GameManager::keyListener(sf::RenderWindow &window) {
 			if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
 				rightKeyPressed = true;
 			}
-			//Fire when player presses space - further code validates to only shoot once anyway, so we don't need to check for release.
+			//Fire when player presses space
 			if (event.key.code == sf::Keyboard::Space) {
 				spaceKeyPressed = true;
 			}
@@ -174,7 +205,7 @@ void GameManager::keyListener(sf::RenderWindow &window) {
 			}
 		}
 	}
-	//Only move left or right if one is pressed *and* the other is NOT pressed.
+	//Only move left or right if one is pressed *and* the other is NOT pressed. Also ensure the player is within the screen bounds.
 	if (leftKeyPressed && !rightKeyPressed && player.getSprite().getPosition().x > (0 + player.getSprite().getLocalBounds().width / 2)) {
 		player.move(-5);
 	}
@@ -183,19 +214,23 @@ void GameManager::keyListener(sf::RenderWindow &window) {
 		player.move(5);
 	}
 
-	if (spaceKeyPressed) {
+	//Attempt to fire a shot
+	if (spaceKeyPressed && !player.isPlayerDead()) {
 		player.shoot(*this);
 	}
 }
 
+//Give the player some points - they earned it.
 void GameManager::addToScore(int points) {
 	score += points;
 }
 
+//Add the bullet passed into our bullet vector
 void GameManager::addBulletToVector(Bullet bullet) {
 	bulletVector->push_back(bullet);
 }
 
+//Draw the main game screen - handled in here instead of DisplayManager for access reasons.
 void GameManager::drawGameObjects(sf::RenderWindow &window) {
 	for (int i = 0; i < alienVector->size(); i++) {
 		//Draw all aliens, but only if they're alive.
@@ -235,13 +270,14 @@ void GameManager::drawGameObjects(sf::RenderWindow &window) {
 	}
 }
 
+//See if a bullet has broken our barrier.
 bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 	//Check if the bullet is vertically in the area for our barriers.
-	if (bullet.getSprite().getPosition().y >= ySize - 100 && bullet.getSprite().getPosition().y <= ySize - 62) {
+	if (bullet.getSprite().getPosition().y >= ySize - 120 && bullet.getSprite().getPosition().y <= ySize - 62) {
 		sf::FloatRect bulletBoundingBox = bullet.getSprite().getGlobalBounds();
 
 		//Within barrier 1's bounds
-		if (bullet.getSprite().getPosition().x >= barrier_1_position - 32 && bullet.getSprite().getPosition().x <= barrier_1_position + 32) {
+		if (bullet.getSprite().getPosition().x >= barrier_1_position - 36 && bullet.getSprite().getPosition().x <= barrier_1_position + 36) {
 			for (int i = 0; i < barrier_vector_1->size(); i++) {
 				Barrier &barrier = barrier_vector_1->at(i);
 
@@ -255,7 +291,7 @@ bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 			}
 		}
 		//Within barrier 2's bounds
-		if (bullet.getSprite().getPosition().x >= barrier_2_position - 32 && bullet.getSprite().getPosition().x <= barrier_2_position + 32) {
+		if (bullet.getSprite().getPosition().x >= barrier_2_position - 36 && bullet.getSprite().getPosition().x <= barrier_2_position + 36) {
 			for (int i = 0; i < barrier_vector_2->size(); i++) {
 				Barrier &barrier = barrier_vector_2->at(i);
 
@@ -269,7 +305,7 @@ bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 			}
 		}
 		//Within barrier 3's bounds
-		if (bullet.getSprite().getPosition().x >= barrier_3_position - 32 && bullet.getSprite().getPosition().x <= barrier_3_position + 32) {
+		if (bullet.getSprite().getPosition().x >= barrier_3_position - 36 && bullet.getSprite().getPosition().x <= barrier_3_position + 36) {
 			for (int i = 0; i < barrier_vector_3->size(); i++) {
 				Barrier &barrier = barrier_vector_3->at(i);
 
@@ -283,7 +319,7 @@ bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 			}
 		}
 		//Within barrier 4's bounds
-		if (bullet.getSprite().getPosition().x >= barrier_4_position - 32 && bullet.getSprite().getPosition().x <= barrier_4_position + 32) {
+		if (bullet.getSprite().getPosition().x >= barrier_4_position - 36 && bullet.getSprite().getPosition().x <= barrier_4_position + 36) {
 			for (int i = 0; i < barrier_vector_4->size(); i++) {
 				Barrier &barrier = barrier_vector_4->at(i);
 
@@ -300,10 +336,13 @@ bool GameManager::checkBulletBarrierCollision(Bullet &bullet) {
 	return false;
 }
 
+//Move the bullet if it's owned by a player
+//In hindsight, I could've handled the player/alien bullets in a single for loop and then called move player/alien bullet from in there, but I ran out of time to change it :( 
 void GameManager::movePlayerBullet(Player &player) {
 	//Iterate through all registered bullets
 	for (int i = 0; i < bulletVector->size(); i++) {
 		Bullet b = bulletVector->at(i);
+		//Check if a player owns this bullet
 		if (b.isPlayerOwned) {
 			sf::RectangleShape bullet = b.getSprite();
 			b.move(bullet, -playerBulletSpeed);
@@ -311,7 +350,9 @@ void GameManager::movePlayerBullet(Player &player) {
 			b.setSprite(bullet);
 			bulletVector->at(i) = b;
 
+			//Check if the bullet hit a barrier
 			if (checkBulletBarrierCollision(b)) {
+				//Delete the bullet from existance 
 				bulletVector->erase(bulletVector->begin() + i);
 				i--;
 				player.bulletActive = false;
@@ -321,9 +362,13 @@ void GameManager::movePlayerBullet(Player &player) {
 			//Get the bullets bounding box
 			sf::FloatRect bulletBoundingBox = bullet.getGlobalBounds();
 
+			//Only check if we can hit the mothership, if the mothership is active.
 			if (mothershipActive) {
 				if (bulletBoundingBox.intersects(mothership.getSprite().getGlobalBounds())) {
+					sfx_dead.setBuffer(buffer_dead);
+					sfx_dead.play();
 					mothership = Mothership(); //Set back to default 
+					mothershipCooldown = 500;
 					mothershipActive = false;
 					score += mothership.getPointValue();
 
@@ -392,8 +437,7 @@ void GameManager::moveAlienBullet(Player &player) {
 				if (bullet.getPosition().y > ySize - 80 && bullet.getPosition().y < ySize - 40) {
 					sf::FloatRect playerBoundingBox = player.getSprite().getGlobalBounds();
 					if (bulletBoundingBox.intersects(playerBoundingBox)) {
-						//TODO kill player
-						player.getShot();
+						player.getShot(*this);
 						bulletVector->erase(bulletVector->begin() + i);
 						i--;
 					}
@@ -404,8 +448,17 @@ void GameManager::moveAlienBullet(Player &player) {
 }
 
 int directionCooldown = 0; //A cooldown for changing directions, to stop it changing rapidly when aliens are technically still out of bounds.
-
+//Move the aliens
 void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
+	if (playSound()) {
+		sfx_move.setBuffer(buffer_move[moveSfxId]);
+		sfx_move.play();
+		moveSfxId++;
+		if (moveSfxId > 3) {
+			moveSfxId = 0;
+		}
+	}
+
 	int moveVertical = 0;
 
 	//If the aliens were out of bounds, this will be 5.
@@ -435,7 +488,7 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 
 		if (alien.getPosition().y > ySize) {
 			//Player loses a life if an alien goes off screen...
-			player.getShot();
+			player.getShot(*this);
 			//..but the alien dies in the process.
 			a.kill(*this);
 		}
@@ -444,9 +497,11 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 		a.setRenderer(a.move(moveRight, 5, moveVertical));
 
 		if (!a.isDead()) {
+			//Attempt to fire a bullet (using RNG, most times this will not actually fire a bullet. But it might!)
 			a.shoot(alienShootChance, *this->bulletVector);
 
-			if (alien.getPosition().y > ySize - 99 && alien.getPosition().y < ySize - 63) {
+			//Before we even bother checking if the alien is hitting a barrier, check that it's low enough in the screen to be able to hit a barrier.
+			if (alien.getPosition().y > ySize - 110 && alien.getPosition().y < ySize - 63) {
 				sf::FloatRect alienBoundingBox = alien.getGlobalBounds();
 				//Check for alien-barrier collision
 				if (alien.getPosition().x >= barrier_1_position - 32 && alien.getPosition().x <= barrier_1_position + 32) {
@@ -501,6 +556,15 @@ void GameManager::moveAliens(bool &moveRight, sf::FloatRect gameArea) {
 	}
 }
 
+//Mute/unmute the game
+void GameManager::toggleSound() {
+	playSFX = !playSFX;
+	if (mothershipActive) {
+		mothership.toggleSFX(playSFX);
+	}
+}
+
+//Create one full barrier, centred at the defined X position.
 void GameManager::createBarrier(std::vector<Barrier> &vec, int xPos) {
 	//bottom row
 	vec.push_back(Barrier(xPos - 30, ySize - 75, "Full_Barrier", 0));

@@ -98,6 +98,16 @@
     <Font Include="assets\fonts\pixeled.ttf" />
     <Font Include="D:\Downloads\pixeled\Pixeled.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\sounds\explosion.wav" />
+    <Media Include="assets\sounds\fastinvader0.wav" />
+    <Media Include="assets\sounds\fastinvader1.wav" />
+    <Media Include="assets\sounds\fastinvader2.wav" />
+    <Media Include="assets\sounds\fastinvader3.wav" />
+    <Media Include="assets\sounds\invaderkilled.wav" />
+    <Media Include="assets\sounds\shoot.wav" />
+    <Media Include="assets\sounds\ufo_highpitch.wav" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{49221366-BFA9-4A79-8ED0-06CBB0E72FAF}</ProjectGuid>

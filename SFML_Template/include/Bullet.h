@@ -4,6 +4,7 @@
 class Bullet {
 public:
 	sf::RectangleShape render;
+	//True for if a player fired it, false for an alien.
 	bool isPlayerOwned;
 
 	Bullet() {}
@@ -17,7 +18,7 @@ public:
 		isPlayerOwned = playerOwned;
 	}
 
-	sf::RectangleShape getSprite(); //Technically not a sprite but oh well
+	sf::RectangleShape getSprite(); //Technically not a sprite but lets keep consistency with other similar functions.
 	void setSprite(sf::RectangleShape shape);
 	void move(sf::RectangleShape &shape, int amount);
 };

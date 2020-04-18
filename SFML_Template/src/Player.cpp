@@ -6,6 +6,7 @@
 using std::cout;
 using std::endl;
 
+//Draw the player's lives on-screen, in the bottom-left corner.
 void Player::drawLives(sf::RenderWindow &window) {
 	for (int i = 0; i < lives-1; i++) {
 		sf::Sprite s = sprite;
@@ -18,23 +19,31 @@ void Player::drawLives(sf::RenderWindow &window) {
 	}
 }
 
+//Called when the player presses space
 void Player::shoot(GameManager &manager) {
 	if (!bulletActive) {
+		if (manager.playSound()) {
+			sfx_shoot.play();
+		}
 		manager.addBulletToVector(Bullet(true, sprite.getPosition().x, sprite.getPosition().y + 4));
 		bulletActive = true;
 	}
 }
 
-void Player::getShot() {
+//Called when a player is shot by an alien.
+void Player::getShot(GameManager &manager) {
 	if (lives > 0 && respawnTimer <= 0) {
+		if (manager.playSound()) {
+			sfx_die.play();
+		}
 		lives--;
 		respawnTimer = respawnTime;
 	}
 }
 
+//Checks if the player is dead - used to validate bullet collisions etc
 bool Player::isPlayerDead() {
 	if (respawnTimer > 0) {
-		std::cout << "Respawn timer: " << respawnTimer << std::endl;
 		respawnTimer--;
 		//Respawn timer reaches zero - move them to spawn point
 		if (respawnTimer == 0) {
@@ -49,15 +58,19 @@ int Player::getLives() {
 	return lives;
 }
 
+//Increas the player lives by the amount specified. Increase by 1 for a victory, increase by 3 for a defeat (to reset)
 void Player::addLives(int amt) {
 	lives += amt;
 }
 
+//Move the player back to starting position and so on.
 void Player::resetPosition() {
 	respawnTimer = 0; //Ensure timer is zero on reset - useful for after a new game etc
+	bulletActive = false;
 	sprite.setPosition(defaultX, defaultY);
 }
 
+//Get the player's texture for rendering
 sf::Sprite Player::getSprite() {
 	if (isPlayerDead()) {
 		sprite.setTexture(texture_dead);
@@ -68,6 +81,7 @@ sf::Sprite Player::getSprite() {
 	return sprite;
 }
 
+//Move the player, so long as they are alive.
 void Player::move(int amount) {
 	if (respawnTimer <= 0) {
 		sprite.move(amount, 0);
